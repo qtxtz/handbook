@@ -5,23 +5,41 @@ keywords: Ultralytics, development workflow, pull requests, code review, Git, Gi
 
 # Development Workflow 💻
 
-This guide covers the development process for contributing to [Ultralytics](https://www.ultralytics.com/) projects, including YOLO11 and related repositories.
+This guide covers how Ultralytics employees and contributors plan, implement, review, test, and merge changes across [Ultralytics](https://www.ultralytics.com/) projects, including YOLO11 and related repositories.
+
+The workflow is intentionally lightweight: keep changes focused, make review easy, run the right checks, and leave enough context for teammates to understand the decision later.
 
 ## Code of Conduct 🤝
 
-All contributors must adhere to our [Code of Conduct](https://docs.ultralytics.com/help/code-of-conduct/). Respect, kindness, and professionalism are at the heart of our community. For detailed contribution guidelines, see the [Official Contributing Guide](https://docs.ultralytics.com/help/contributing/).
+All contributors must follow the [Code of Conduct](https://docs.ultralytics.com/help/code-of-conduct/). Respect, clarity, and professionalism are expected in issues, PRs, reviews, internal discussions, and public community spaces. For public contribution requirements, see the [Official Contributing Guide](https://docs.ultralytics.com/help/contributing/).
 
 ## Collaboration Cadence 🛰️
 
-- **Anchor Days (Tue/Wed/Thu):** For teammates within commutable distance, code reviews, design debates, and debugging happen in person by default—opt for whiteboards over long threads to reduce latency.
-- **Mon/Fri:** Favor deep work and async updates; move critical blockers to the next Anchor Day if they need synchronous alignment.
-- **Standups & Reviews:** Timebox standups to 15 minutes; schedule design/architecture reviews on Anchor Days to maximize bandwidth.
+- **Anchor Days (Tue/Wed/Thu):** Use these days for code reviews, design discussions, debugging sessions, and decisions that benefit from synchronous collaboration.
+- **Mon/Fri:** Favor deep work, written updates, PR preparation, and async review. Move critical blockers to the next Anchor Day when synchronous alignment is needed.
+- **Standups & Reviews:** Timebox standups to 15 minutes. Schedule design and architecture reviews on Anchor Days when possible.
+- **Decision Records:** Capture important decisions in PR descriptions, issues, docs, or runbooks so context does not disappear in chat.
+
+## Scope and Ownership 🧭
+
+This workflow applies to Ultralytics engineering work across product, platform, YOLO, HUB, infrastructure, documentation, automation, and security-sensitive systems. Individual repositories may add stricter requirements, but they should not weaken the baseline expectations in this page.
+
+Every work item should have a clear owner:
+
+- **Author:** Implements the change, keeps the PR current, and provides validation evidence.
+- **Reviewer:** Confirms correctness, maintainability, risk, and documentation impact.
+- **Domain owner:** Reviews changes affecting a specialized area such as model behavior, infrastructure, security, privacy, licensing, or customer-facing workflows.
+- **Triage owner:** Assigns incoming issues, incidents, vulnerability reports, and maintenance work to the right owner.
+
+!!! tip "Triage expectations"
+
+    New engineering work should be triaged for impact, priority, ownership, and risk. Security, production, customer-impacting, and compliance-related work should receive an explicit owner and follow-up path instead of staying as an unassigned issue or chat thread.
 
 ## Pull Request Process 🔄
 
 ```mermaid
 flowchart TD
-    A[Fork Repository] --> B[Create Feature Branch]
+    A[Fork or Sync Repository] --> B[Create Feature Branch]
     B --> C[Make Changes]
     C --> D[Run Tests Locally]
     D --> E[Commit Changes]
@@ -37,19 +55,25 @@ flowchart TD
     style G fill:#fff3cd
 ```
 
-### 1. Fork the Repository
+### 1. Fork or Sync the Repository
 
-[Fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo) the relevant Ultralytics repository (e.g., [ultralytics/ultralytics](https://github.com/ultralytics/ultralytics)) to your GitHub account.
+External contributors should [fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo) the relevant Ultralytics repository, such as [ultralytics/ultralytics](https://github.com/ultralytics/ultralytics), to their GitHub account.
+
+Employees with write access should sync `main` before branching:
 
 ```bash
-# Clone your fork
+# External contributors
 git clone https://github.com/YOUR_USERNAME/ultralytics.git
 cd ultralytics
+
+# Employees with write access
+git checkout main
+git pull origin main
 ```
 
-### 2. Create Feature Branch
+### 2. Create a Feature Branch
 
-[Create a branch](https://docs.github.com/en/desktop/making-changes-in-a-branch/managing-branches-in-github-desktop) with a clear, descriptive name:
+[Create a branch](https://docs.github.com/en/desktop/making-changes-in-a-branch/managing-branches-in-github-desktop) with a clear, descriptive name that reflects the work:
 
 ```bash
 git checkout -b fix-issue-123
@@ -57,9 +81,10 @@ git checkout -b fix-issue-123
 
 !!! tip "Branch Naming Conventions"
 
-    - `fix-issue-123` for bug fixes
-    - `add-feature-xyz` for new features
+    - `fix-export-timeout` for bug fixes
+    - `add-training-metrics` for features
     - `update-docs-training` for documentation
+    - `ci-link-check` for automation or infrastructure
 
 ### 3. Make Your Changes
 
@@ -69,19 +94,19 @@ git checkout -b fix-issue-123
 
     ***
 
-    Adhere to project style guidelines
+    Follow the repository's existing patterns and style
 
 - :material-alert-circle: **Avoid Errors**
 
     ***
 
-    Don't introduce new warnings
+    Avoid new warnings, regressions, or unrelated churn
 
 - :material-target: **Stay Focused**
 
     ***
 
-    Keep changes minimal and targeted
+    Keep the PR scoped to one clear outcome
 
 </div>
 
@@ -89,13 +114,13 @@ git checkout -b fix-issue-123
 
 !!! warning "Testing Required"
 
-    Test locally before submitting:
+    Run the checks that match the risk of your change before requesting review:
 
     ```bash
     pytest tests/
     ```
 
-    Add tests for new functionality to prevent regressions.
+    Add tests for new functionality and regression tests for bug fixes. If a relevant check cannot be run locally, explain why in the PR and include manual validation notes.
 
 Learn more: [Testing Requirements](ci-testing.md), [Model Validation](https://docs.ultralytics.com/modes/val/), [CI Workflows](https://docs.ultralytics.com/help/CI/)
 
@@ -120,8 +145,10 @@ git commit -m "Fix #123: Corrected calculation error"
 === "PR Checklist"
 
     - [ ] Clear title describing the change
-    - [ ] Detailed description of purpose and scope
+    - [ ] Description covering purpose, scope, and validation
     - [ ] Link related issues
+    - [ ] Owner and required reviewers are clear
+    - [ ] Note risks, compatibility concerns, or rollout steps
     - [ ] Include screenshots for UI changes
     - [ ] Tests passing locally
 
@@ -129,7 +156,7 @@ git commit -m "Fix #123: Corrected calculation error"
 
 !!! warning "Required Before Merge"
 
-    You must sign our [Contributor License Agreement (CLA)](https://docs.ultralytics.com/help/CLA/) to ensure contributions are properly licensed under the [AGPL-3.0 license](https://www.ultralytics.com/legal/agpl-3-0-software-license).
+    External contributors must sign the [Contributor License Agreement (CLA)](https://docs.ultralytics.com/help/CLA/) so contributions are properly licensed under the [AGPL-3.0 license](https://www.ultralytics.com/legal/agpl-3-0-software-license).
 
 After submitting your PR, add this comment:
 
@@ -141,11 +168,11 @@ The CLA bot will guide you through the process. For more details on licensing, s
 
 ### 8. Address Review Feedback
 
-Respond to reviewer comments and push updates.
+Respond to reviewer comments, push updates, and keep the PR description current if the scope changes. Resolve all blocking feedback before requesting re-review.
 
 ## Google-Style Docstrings 📝
 
-All functions and classes require [Google-style docstrings](https://google.github.io/styleguide/pyguide.html) with types in parentheses.
+Public functions and classes should use [Google-style docstrings](https://google.github.io/styleguide/pyguide.html) where the repository expects them. Keep docstrings accurate, concise, and useful for future maintainers.
 
 ### Standard Function
 
@@ -209,7 +236,7 @@ def example_function(arg1, arg2=4):
     return equals, added
 ```
 
-**Important:** Document each return value separately, not as a tuple.
+**Important:** When a function returns multiple values, document each return value separately instead of hiding important details inside a generic tuple description.
 
 ✅ **Good:**
 
@@ -259,13 +286,13 @@ def example_small_function(arg1: int, arg2: int = 4) -> bool:
 
 ### Python Style
 
-| Standard       | Requirement                                                      | Example                           |
-| -------------- | ---------------------------------------------------------------- | --------------------------------- |
-| **Line Width** | 120 characters max                                               | Keep lines readable and scannable |
-| **Docstrings** | [Google-style](https://google.github.io/styleguide/pyguide.html) | Types in parentheses              |
-| **Imports**    | `pathlib` over `os`                                              | Modern, cross-platform paths      |
-| **Type Hints** | Use when beneficial                                              | Improves IDE support              |
-| **Functions**  | <50 lines ideally                                                | Keep focused and testable         |
+| Standard       | Requirement                                                      | Example                                      |
+| -------------- | ---------------------------------------------------------------- | -------------------------------------------- |
+| **Line Width** | Follow the repository configuration, commonly 120 characters     | Keep lines readable and scannable            |
+| **Docstrings** | [Google-style](https://google.github.io/styleguide/pyguide.html) | Use types and examples where helpful         |
+| **Imports**    | Prefer `pathlib` over manual path string handling                | Modern, cross-platform paths                 |
+| **Type Hints** | Use when they improve clarity                                    | Public APIs, complex structures, return data |
+| **Functions**  | Keep focused and testable                                        | Split complex logic into named helpers       |
 
 ### Code Quality
 
@@ -274,12 +301,12 @@ def example_small_function(arg1: int, arg2: int = 4) -> bool:
     === "Clean Code"
         - [x] No unused imports or variables
         - [x] Consistent naming (`lowercase_with_underscores`)
-        - [x] Clear variable names (avoid single letters except loop counters)
+        - [x] Clear variable names; avoid single letters except loop counters
 
     === "Formatting"
         - [x] Use f-strings for string formatting
-        - [x] Comments only for complex logic
-        - [x] [Ruff Formatter](https://github.com/astral-sh/ruff) for consistency
+        - [x] Comments explain non-obvious decisions, not obvious syntax
+        - [x] Use [Ruff Formatter](https://github.com/astral-sh/ruff) where configured
 
 ### Best Practices
 
@@ -289,86 +316,116 @@ def example_small_function(arg1: int, arg2: int = 4) -> bool:
 
     ***
 
-    Reuse existing code - DRY principle
+    Reuse existing helpers and patterns
 
 - :material-focus-field: **Smaller Changes**
 
     ***
 
-    Focused modifications > large-scale changes
+    Prefer focused PRs over broad mixed changes
 
 - :material-lightbulb-on: **Simplify**
 
     ***
 
-    Look for simplification opportunities
+    Remove complexity when it improves clarity
 
 - :material-shield-check: **Compatibility**
 
     ***
 
-    Avoid breaking existing code
+    Preserve public APIs and user workflows
 
 - :material-test-tube: **Add Tests**
 
     ***
 
-    Include tests for new features
+    Cover new behavior and regressions
 
 - :material-format-paint: **Consistent Format**
 
     ***
 
-    Use [Ruff Formatter](https://github.com/astral-sh/ruff)
+    Follow repository formatting tools
 
 </div>
 
+## Security Frameworks 🛡️
+
+Ultralytics engineering practices should align with recognized secure development guidance, including [OWASP Secure Software Development Lifecycle](https://owasp.org/www-project-samm/), [OWASP Application Security Verification Standard](https://owasp.org/www-project-application-security-verification-standard/), and [OWASP Top 10](https://owasp.org/www-project-top-ten/). Teams should use these references when planning secure design, review, testing, and remediation work.
+
+## Asset Management 🗂️
+
+Engineering assets should have a clear owner and a reliable source of truth. This includes repositories, services, cloud resources, CI/CD runners, domains, datasets, model artifacts, API keys, secrets, deployment environments, and third-party integrations.
+
+When creating, changing, or retiring an asset:
+
+- Assign an owner and maintenance contact.
+- Record purpose, environment, access requirements, and lifecycle state.
+- Review access and least-privilege permissions.
+- Keep secrets and credentials out of code, logs, screenshots, and documentation.
+- Update runbooks, diagrams, inventories, or documentation when ownership or behavior changes.
+- Retire unused assets to reduce security, cost, and maintenance risk.
+
+## Documentation Review 📝
+
+Documentation should stay aligned with current roles, ownership, workflows, and security expectations. When a process changes, update the relevant handbook page, public docs, runbook, or README in the same PR where practical.
+
+Documentation reviewers should check:
+
+- Role names, ownership, and escalation paths are current.
+- Security, compliance, and licensing language matches current policy.
+- Links, diagrams, commands, and screenshots still reflect the product or workflow.
+- New or changed processes include a clear owner and review cadence.
+- Public documentation does not expose internal-only information, secrets, customer data, or sensitive operational details.
+
 ## Testing Requirements ✅
 
-All PRs must pass CI tests:
+All PRs should include validation that matches the risk of the change:
 
 ```bash
-# Run tests locally
 pytest tests/
 
-# With coverage
+# When coverage is relevant
 pytest --cov=ultralytics tests/
 ```
 
-See [CI/Testing](ci-testing.md) for CI details.
+For model behavior changes, include the dataset, model, command, hardware, and before/after metrics where practical. For documentation changes, build the docs locally and include screenshots or preview links for layout changes. See [CI/Testing](ci-testing.md) for CI details.
 
 ## Code Review Guidelines 👀
 
 ### For Contributors
 
-- Keep PRs focused on single feature/fix
-- Respond promptly to feedback
-- Don't take feedback personally
-- Update PR description if scope changes
+- Keep PRs focused on one feature, fix, or documentation update.
+- Explain the problem, solution, validation, and risks.
+- Respond promptly to feedback.
+- Treat review as part of the work, not a personal judgment.
+- Update the PR description if scope changes.
 
 ### For Reviewers
 
-- Review within 1-2 business days
-- Check unit tests for new features
-- Review documentation updates
-- Evaluate performance impact
-- Verify CI tests pass
-- Provide constructive, specific feedback
-- Recognize author's effort
+- Review within one to two business days or redirect quickly.
+- Check tests and validation evidence for new behavior.
+- Review documentation updates for user-visible changes.
+- Evaluate performance, compatibility, security, privacy, and maintainability impact.
+- Verify relevant CI checks pass.
+- Provide constructive, specific feedback.
+- Distinguish blocking issues from suggestions.
 
 ## Git Best Practices 🌳
 
 ### Commits
 
-- Present tense: "Add feature" not "Added feature"
-- Clear, descriptive messages
-- Focused, logical commits
+- Use present tense: "Add feature" not "Added feature".
+- Write clear, descriptive messages.
+- Keep commits focused and logical.
+- Avoid mixing formatting-only churn with behavior changes.
 
 ### Branches
 
-- Pull latest `main` before creating branches
-- Rebase on `main` before final submission
-- Delete branches after merge
+- Pull latest `main` before creating branches.
+- Rebase or merge `main` before final submission when the branch has drifted.
+- Delete branches after merge.
 
 ## Reporting Bugs 🐞
 
@@ -383,7 +440,7 @@ For common issues and solutions, see our [troubleshooting guide](https://docs.ul
 
 ## License 📜
 
-Ultralytics uses [AGPL-3.0](https://www.ultralytics.com/legal/agpl-3-0-software-license). If using Ultralytics code in your project, your entire project must be open-sourced under AGPL-3.0. If you prefer not to open-source, obtain an [Enterprise License](https://www.ultralytics.com/license).
+Many Ultralytics repositories use the [AGPL-3.0 license](https://www.ultralytics.com/legal/agpl-3-0-software-license). If you use AGPL-licensed Ultralytics code in your project, your project may also need to be open-sourced under AGPL-3.0. If you need closed-source or commercial use, review the [Enterprise License](https://www.ultralytics.com/license).
 
 ## Resources 📚
 
@@ -391,5 +448,7 @@ Ultralytics uses [AGPL-3.0](https://www.ultralytics.com/legal/agpl-3-0-software-
 - [CI/Testing](ci-testing.md) - Continuous integration details
 - [Documentation](documentation.md) - Writing and maintaining docs
 - [Code of Conduct](https://docs.ultralytics.com/help/code-of-conduct/) - Community standards
+- [CLA Instructions](https://docs.ultralytics.com/help/CLA/) - Contributor License Agreement guidance
+- [Minimum Reproducible Example](https://docs.ultralytics.com/help/minimum-reproducible-example/) - Bug report examples
 - [Ultralytics Blog](https://www.ultralytics.com/blog) - Latest updates and tutorials
 - [Community Events](https://www.ultralytics.com/events) - Webinars and conferences
