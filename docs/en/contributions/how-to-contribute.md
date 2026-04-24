@@ -126,7 +126,7 @@ Help us improve by reporting bugs via [GitHub Issues](https://github.com/ultraly
 A Minimum Reproducible Example should:
 
 - **Isolate the problem**: Remove unnecessary code
-- **Use public models and datasets**: e.g., `yolov8n.pt` and `coco8.yaml`
+- **Use public models and datasets**: e.g., `yolo26n.pt` and `coco8.yaml`
 - **Include dependencies**: List with `yolo checks` or `pip list`
 - **Provide clear description**: Expected vs actual behavior
 - **Format properly**: Use code blocks with triple backticks

@@ -34,7 +34,7 @@ def main():
     # Build with Zensical
     print(f"Building docs from {DOCS}")
     try:
-        subprocess.run(["python3", "-m", "zensical", "build"], cwd=DOCS.parent, check=True)
+        subprocess.run([sys.executable, "-m", "zensical", "build"], cwd=DOCS.parent, check=True)
     except subprocess.CalledProcessError as e:
         print(f"❌ Zensical build failed with exit code {e.returncode}")
         sys.exit(1)

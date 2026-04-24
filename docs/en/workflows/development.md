@@ -1,11 +1,11 @@
 ---
-description: Ultralytics development workflow covering PR process, CLA signing, Google-style docstrings, code standards, and Git practices for YOLO11 contributions.
-keywords: Ultralytics, development workflow, pull requests, code review, Git, GitHub, CLA, docstrings, YOLO11, Python, contributing
+description: Ultralytics development workflow covering PR process, CLA signing, Google-style docstrings, code standards, and Git practices for YOLO contributions.
+keywords: Ultralytics, development workflow, pull requests, code review, Git, GitHub, CLA, docstrings, YOLO, Python, contributing
 ---
 
 # Development Workflow 💻
 
-This guide covers how Ultralytics employees and contributors plan, implement, review, test, and merge changes across [Ultralytics](https://www.ultralytics.com/) projects, including YOLO11 and related repositories.
+This guide covers how Ultralytics employees and contributors plan, implement, review, test, and merge changes across [Ultralytics](https://www.ultralytics.com/) projects, including YOLO and related repositories.
 
 The workflow is intentionally lightweight: keep changes focused, make review easy, run the right checks, and leave enough context for teammates to understand the decision later.
 

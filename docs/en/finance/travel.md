@@ -1,9 +1,9 @@
 ---
-description: Ultralytics Employee Travel Policy covering per diem rates, booking procedures, expense reporting, and sustainability guidelines for business travel in 2025.
+description: Ultralytics Employee Travel Policy covering per diem rates, booking procedures, expense reporting, and sustainability guidelines for business travel.
 keywords: Ultralytics, Employee Travel Policy, per diem rates, travel responsibilities, airfare, expense reporting, sustainability, business travel
 ---
 
-# Ultralytics Employee Travel Policy (2025) 🌐
+# Ultralytics Employee Travel Policy 🌐
 
 ## Scope 📌
 
@@ -81,7 +81,7 @@ graph TD
         :material-close-circle: Alcohol
         :material-close-circle: Entertainment
 
-Employees traveling for business will receive a daily per diem allowance based on their destination. The following rates apply for the full year of 2025 and will be updated on January 1st, 2026:
+Employees traveling for business will receive a daily per diem allowance based on their destination. The following rates are reviewed annually and updated when Finance publishes a new schedule:
 
 | Country               | City          | Lodging | M&IE   | Total Per Diem |
 | --------------------- | ------------- | ------- | ------ | -------------- |

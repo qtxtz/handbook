@@ -42,7 +42,7 @@ We encourage you to celebrate Ultralytics' work and community impact. You may sh
 - Official Ultralytics blogs, documentation, or updates **after** they've been published on our [website](https://www.ultralytics.com/) and/or social media channels
 - Public press coverage or media mentions
 - Partner announcements or collaborations **after** Ultralytics has shared them
-- Open-source highlights, YOLO11 model releases, and event recaps already visible online
+- Open-source highlights, YOLO model releases, and event recaps already visible online
 - Personal insights, experiences, or stories — your authenticity strengthens our [community](community-engagement.md)
 
 !!! tip
